@@ -30,7 +30,7 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
             margin: 2%;
         }
 
-        @media (prefers-color-scheme: dark){
+        @media (prefers-color-scheme: dark) {
             section {
                 background-color: #2b3035;
             }
@@ -53,15 +53,12 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <!-- <a class="navbar-brand" href="#">System Shop</a> -->
+            <a class="navbar-brand" href="index.php">Sistema Shop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <span class="navbar-text">
-                        <?php echo $date; ?>
-                    </span>
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
@@ -77,6 +74,10 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
                         <a class="nav-link active" aria-current="page" href="sobre.php">Sobre</a>
                     </li>
                 </ul>
+                <span class="navbar-text">
+                    <?php echo date('d/m/Y H:i:s', time()); ?>
+                </span>
+                &nbsp;
                 <?php if (isset($_SESSION["nome_usuario"]) || isset($_SESSION["nivel_acesso"])): ?>
                     <ul class='navbar-nav ml-auto'>
                         <li class='nav-item'>
@@ -109,11 +110,11 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
         <h1 class="text-center mt-4">Sobre</h1>
         <br>
         <section>
-        <p>Este sistema web de produtos é dedicado à listagem e visualização de mangás, oferecendo uma experiência
-            amigável e organizada para os usuários. Em uma página de catálogo, cada mangá listado exibe informações
-            essenciais como o nome, descrição e preço. A interface permite que os usuários naveguem facilmente por
-            diversas opções, visualizando rapidamente o conteúdo e as características de cada produto. Além disso, o
-            sistema permite fazer buscas por título, facilitando a descoberta dos produtos desejados.</p>
+            <p>Este sistema web de produtos é dedicado à listagem e visualização de mangás, oferecendo uma experiência
+                amigável e organizada para os usuários. Em uma página de catálogo, cada mangá listado exibe informações
+                essenciais como o nome, descrição e preço. A interface permite que os usuários naveguem facilmente por
+                diversas opções, visualizando rapidamente o conteúdo e as características de cada produto. Além disso, o
+                sistema permite fazer buscas por título, facilitando a descoberta dos produtos desejados.</p>
         </section>
 </body>
 

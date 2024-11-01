@@ -30,6 +30,9 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
+                <span class="navbar-text">
+                    <?php echo date('d/m/Y H:i:s', time()); ?>
+                </span>
                 <li class="nav-item">
                     <span class="nav-link me-2">Bem-vindo, <?php echo $_SESSION['nome_usuario']; ?></span>
                 </li>
