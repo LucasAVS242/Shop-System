@@ -14,5 +14,5 @@ if (file_exists("images/" . $produto['imagem'])) {
 $stmt = $conn->prepare("DELETE FROM produtos WHERE id = ?");
 $stmt->execute([$id]);
 
-header("Location: admin_dashboard.php");
+header("Location: lista_produtos.php");
 exit;
