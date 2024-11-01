@@ -17,22 +17,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($arquivoNovo['error'] === UPLOAD_ERR_OK) {
         $nomeArquivoNovo = uniqid() . "-" . $arquivoNovo['name'];
-        move_uploaded_file($arquivoNovo['tmp_name'], "images/$nomeArquivoNovo");
+        $file_parts = pathinfo($nomeArquivoNovo);
+        $extension = $file_parts['extension'];
 
-        // Remove o arquivo antigo
-        if (file_exists("images/" . $produto['imagem'])) {
-            unlink("images/" . $produto['imagem']);
+        // Verifica se o arquvio enviado é um arquivo de imagem válido
+        if (in_array($extension, array('jpg', 'png', 'jpeg', 'gif'))) {
+            move_uploaded_file($arquivoNovo['tmp_name'], "images/$nomeArquivoNovo");
+
+            // Remove o arquivo antigo
+            if (file_exists("images/" . $produto['imagem'])) {
+                unlink("images/" . $produto['imagem']);
+            }
+
+            $stmt = $conn->prepare("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, quantidade = ?, imagem = ? WHERE id = ?");
+            $stmt->execute([$nome, $descricao, $preco, $quantidade, $nomeArquivoNovo, $id]);
+            header("Location: lista_produtos.php");
+            exit;
+        } else {
+            echo "<div class='container text-center mt-4 alert alert-danger'>Por favor insira um arquivo válido para a imagem!</div>";
         }
-
-        $stmt = $conn->prepare("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, quantidade = ?, imagem = ? WHERE id = ?");
-        $stmt->execute([$nome, $descricao, $preco, $quantidade, $nomeArquivoNovo, $id]);
     } else {
         $stmt = $conn->prepare("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, quantidade = ? WHERE id = ?");
         $stmt->execute([$nome, $descricao, $preco, $quantidade, $id]);
+        header("Location: lista_produtos.php");
+        exit;
     }
-
-    header("Location: lista_produtos.php");
-    exit;
 }
 ?>
 
@@ -65,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" class="form-control" name="nome" id="nome" value="<?= htmlspecialchars($produto['nome']) ?>" required><br>
                     </div>
                     <div class="form-group">
-                        <label for="descricao" class="form-label">Descrição</label>
+                        <label for="descricao" class="form-label">Sinopse</label>
                         <textarea class="form-control" name="descricao" id="descricao" rows="4" required><?= htmlspecialchars($produto['descricao']) ?></textarea><br>
                     </div>
                     <div class="form-group">
@@ -80,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="form-label">Imagem atual</label><br>
                         <img src="images/<?= htmlspecialchars($produto['imagem']) ?>" class="img-thumbnail" title="Imagem atual" alt="Imagem atual"><br>
                         <label for="imagem" class="form-label">Nova imagem (deixe em branco se não quiser alterar)</label><br>
-                        <input type="file" class="form-control" name="imagem" id="imagem" accept="image/*"><br>
+                        <input type="file" class="form-control" name="imagem" id="imagem" accept=".jpg, .png, .jpeg, .gif"><br>
                     </div>
                     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                 </form>

@@ -11,14 +11,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $arquivo = $_FILES['imagem'];
 
     if ($arquivo['error'] === UPLOAD_ERR_OK) {
+
         $nomeArquivo = uniqid() . "-" . $arquivo['name'];
-        move_uploaded_file($arquivo['tmp_name'], "images/$nomeArquivo");
+        $file_parts = pathinfo($nomeArquivo);
+        $extension = $file_parts['extension'];
 
-        $stmt = $conn->prepare("INSERT INTO produtos (nome, descricao, preco, quantidade, imagem) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$nome, $descricao, $preco, $quantidade, $nomeArquivo]);
+        // Verifica se o arquvio enviado é um arquivo de imagem válido
+        if (in_array($extension, array('jpg', 'png', 'jpeg', 'gif'))) {
+            
+            move_uploaded_file($arquivo['tmp_name'], "images/$nomeArquivo");
 
-        header("Location: lista_produtos.php");
-        exit;
+            $stmt = $conn->prepare("INSERT INTO produtos (nome, descricao, preco, quantidade, imagem) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$nome, $descricao, $preco, $quantidade, $nomeArquivo]);
+
+            header("Location: lista_produtos.php");
+            exit;
+        } else {
+            echo "<div class='container text-center mt-4 alert alert-danger'>Por favor insira um arquivo válido para a imagem!</div>";
+        }
     }
 }
 ?>
@@ -37,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <div class="container">
-        <h1 class="text-center mt-4">Cadastrar Produto</h1>
+        <h1 class="text-center mt-4">Cadastrar Produto</h1><br>
         <div class="card">
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
@@ -46,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" class="form-control" name="nome" id="nome" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="descricao" class="form-label">Descrição</label>
+                        <label for="descricao" class="form-label">Sinopse</label>
                         <textarea class="form-control" name="descricao" id="descricao" rows="4" required></textarea>
                     </div>
                     <div class="form-group mb-3">
@@ -59,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="form-group mb-3">
                         <label for="imagem" class="form-label">Imagem do produto</label>
-                        <input type="file" class="form-control" name="imagem" id="imagem" accept="image/*" required>
+                        <input type="file" class="form-control" name="imagem" id="imagem" accept=".jpg, .png, .jpeg, .gif" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
