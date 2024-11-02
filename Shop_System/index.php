@@ -18,6 +18,7 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/main.css">
+    <script src="theme.js" type="text/javascript"></script>
     <style>
         figure {
             margin-left: 1%;
@@ -31,18 +32,6 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
             width: 300px;
         }
     </style>
-    <script>
-        function updateTheme() {
-            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
-                "dark" :
-                "light";
-            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
-        }
-
-        updateTheme()
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme)
-    </script>
 </head>
 
 <body>
@@ -59,8 +48,7 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
                         <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                     </li>
 
-                    <!-- Mostra link da página catálogo apenas se o usuário estiver logado -->
-                    <?php if (isset($_SESSION["nome_usuario"]) || isset($_SESSION["nivel_acesso"])): ?>
+                    <?php if (isset($_SESSION["nome_usuario"]) || isset($_SESSION["nivel_acesso"])): // Mostra link da página catálogo apenas se o usuário estiver logado ?>
                         <li class="nav-item">
                             <a class="nav-link" href="catalogo.php">Catálogo</a>
                         </li>
@@ -71,7 +59,7 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <?php echo date('d/m/Y H:i:s', time()); ?>
+                    <?php echo date('d/m/Y H:i', time()); ?>
                 </span>
                 &nbsp;
                 <?php if (isset($_SESSION["nome_usuario"]) || isset($_SESSION["nivel_acesso"])): ?>
@@ -80,14 +68,12 @@ $produtos = $conn->query("SELECT * FROM produtos")->fetchAll(PDO::FETCH_ASSOC);
                             <span class='nav-link me-2'>Bem-vindo, <?= $_SESSION['nome_usuario'] ?></span>
                         </li>
 
-                        <!-- Mostra link da Área Administrativa caso usuário seja Admnistrador -->
-                        <?php if ($_SESSION['nivel_acesso'] === 'ADMINISTRADOR'): ?>
-
+                        <?php if ($_SESSION['nivel_acesso'] === 'ADMINISTRADOR'): // Mostra link da Área Administrativa caso usuário seja Admnistrador ?>
                             <li class='nav-item'>
                                 <a class='nav-link btn btn-outline' href='admin_dashboard.php'>Área Administrativa</a>
                             </li>
-
                         <?php endif; ?>
+
                         <li class='nav-item'>
                             <a class='nav-link btn btn-outline-danger' href='logout.php'>Sair</a>
                         </li>

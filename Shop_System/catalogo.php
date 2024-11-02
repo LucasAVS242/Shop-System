@@ -29,24 +29,13 @@ if (isset($_GET['pesquisar'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/main.css">
+    <script src="theme.js" type="text/javascript"></script>
     <style>
         img {
             height: 150px;
             width: 100px;
         }
     </style>
-    <script>
-        function updateTheme() {
-            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
-                "dark" :
-                "light";
-            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
-        }
-
-        updateTheme()
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme)
-    </script>
 </head>
 
 <body>
@@ -62,18 +51,16 @@ if (isset($_GET['pesquisar'])) {
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
 
-                    <!-- Mostra link da página catálogo apenas se o usuário estiver logado -->
-                    <?php if (isset($_SESSION["nome_usuario"]) || isset($_SESSION["nivel_acesso"])): ?>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="catalogo.php">Catálogo</a>
-                        </li>
-                    <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="catalogo.php">Catálogo</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="sobre.php">Sobre</a>
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <?php echo date('d/m/Y H:i:s', time()); ?>
+                    <?php echo date('d/m/Y H:i', time()); ?>
                 </span>
                 &nbsp;
                 <?php if (isset($_SESSION["nome_usuario"]) || isset($_SESSION["nivel_acesso"])): ?>
@@ -82,14 +69,12 @@ if (isset($_GET['pesquisar'])) {
                             <span class='nav-link me-2'>Bem-vindo, <?= $_SESSION['nome_usuario'] ?></span>
                         </li>
 
-                        <!-- Mostra link da Área Administrativa caso usuário seja Admnistrador -->
-                        <?php if ($_SESSION['nivel_acesso'] === 'ADMINISTRADOR'): ?>
-
+                        <?php if ($_SESSION['nivel_acesso'] === 'ADMINISTRADOR'): // Mostra link da Área Administrativa caso usuário seja Admnistrador ?>
                             <li class='nav-item'>
                                 <a class='nav-link btn btn-outline' href='admin_dashboard.php'>Área Administrativa</a>
                             </li>
-
                         <?php endif; ?>
+
                         <li class='nav-item'>
                             <a class='nav-link btn btn-outline-danger' href='logout.php'>Sair</a>
                         </li>

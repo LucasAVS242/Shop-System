@@ -31,7 +31,7 @@
 
             <ul class="navbar-nav ml-auto">
                 <span class="navbar-text">
-                    <?php echo date('d/m/Y H:i:s', time()); ?>
+                    <?php echo date('d/m/Y H:i', time()); ?>
                 </span>
                 <li class="nav-item">
                     <span class="nav-link me-2">Bem-vindo, <?php echo $_SESSION['nome_usuario']; ?></span>
@@ -50,16 +50,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="styles/main.css">
-
-<script>
-    function updateTheme() {
-        const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
-            "dark" :
-            "light";
-        document.querySelector("html").setAttribute("data-bs-theme", colorMode);
-    }
-
-    updateTheme()
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme)
-</script>
+<script src="theme.js" type="text/javascript"></script>
