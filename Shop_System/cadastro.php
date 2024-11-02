@@ -26,20 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles/main.css">
-
-    <script>
-        function updateTheme() {
-            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ?
-                "dark" :
-                "light";
-            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
-        }
-
-        updateTheme()
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme)
-    </script>
+    <script src="theme.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -50,20 +37,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card-body">
                         <h2 class="text-center mb-4">Criar Conta</h2>
                         <form method="post">
-                            <div class="form-group mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" name="nome" id="nome" class="form-control" required>
+                        <div class="form-floating mb-3">
+                                <input type="text" name="nome" class="form-control" id="floatingInput"
+                                    placeholder="Nome" required>
+                                <label for="floatingInput">Nome</label>
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" autocomplete="email" required>
+                            <div class="form-floating mb-3">
+                                <input type="email" name="email" class="form-control" id="floatingInput"
+                                    placeholder="Email" required>
+                                <label for="floatingInput">Email</label>
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="senha" class="form-label">Senha</label>
-                                <input type="password" name="senha" id="senha" class="form-control" required>
+                            <div class="form-floating mb-3">
+                                <input type="password" name="senha" class="form-control" id="floatingPassword"
+                                    placeholder="Senha" required>
+                                <label for="floatingPassword">Senha</label>
                             </div>
-                            <div class="d-grid">
+                            <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-primary">Registrar</button>
+                            </div>
+                            <div class="form-group">
+                                <p>Já possui uma conta? <a href="login.php">Entre aqui</a></p>
                             </div>
                         </form>
                     </div>
