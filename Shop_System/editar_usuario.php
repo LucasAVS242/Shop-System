@@ -16,8 +16,13 @@ if ($usuario['id'] == 1) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'];
     $email = $_POST['email'];
-    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
     $nivel_acesso = $_POST['nivel_acesso'];
+
+    if (!empty($_POST['senha'])) {
+        $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+    } else {
+        $senha = $usuario['senha'];
+    }
 
     $stmt = $conn->prepare("UPDATE usuarios SET nome = ?, email = ?, senha = ?, nivel_acesso = ? WHERE id = ?");
     $stmt->execute([$nome, $email, $senha, $nivel_acesso, $id]);
@@ -56,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($usuario['email']) ?>" required><br>
                             </div>
                             <div class="form-group">
-                                <label for="nome" class="form-label">Senha</label>
-                                <input type="password" class="form-control" name="senha" required><br>
+                                <label for="nome" class="form-label">Senha (deixe em branco se não quiser alterar)</label>
+                                <input type="password" class="form-control" name="senha"><br>
                             </div>
                             <div class="form-group">
                                 <label for="nivel_acesso">Nível de Acesso</label><br>
